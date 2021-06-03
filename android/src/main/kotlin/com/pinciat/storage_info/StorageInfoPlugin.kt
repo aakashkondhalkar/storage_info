@@ -81,7 +81,6 @@ class StorageInfoPlugin: FlutterPlugin, MethodCallHandler  {
   fun getStorageFreeSpace(): Long{
       val path = Environment.getDataDirectory()
       val stat = StatFs(path.path)
-      Log.i("Internal", path.path)
       return stat.availableBytes
   }
 
