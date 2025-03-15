@@ -14,7 +14,7 @@ import 'package:storage_info/storage_info.dart';
 final _storageInfoPlugin = StorageInfo();
 
 // Access internal storage space
-Future<int> _getSpace() async {
+Future<double> _getSpace() async {
   return await _storageInfoPlugin.getStorageFreeSpace();
 }
 
@@ -33,13 +33,12 @@ FutureBuilder(
 }
 ```
 
-This package provides properties to get internal storage in bytes, KB, MB and GB
-So you don't need to convert bytes in KB, MB or GB.
+This package provides properties to get internal storage in bytes, KB, MB and GB.
 
-- **Note:** If your are migrating from `0.0.1` to `1.0.0` please read the [Changelog](https://pub.dev/packages/storage_info/changelog#100)
-  for changes.
+**See below code**
 
-See below code
+**Note:** If your are migrating from `0.0.1` to `1.0.0` please read the [Changelog](https://pub.dev/packages/storage_info/changelog#100)
+for changes.
 
 - For internal storage
 
