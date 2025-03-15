@@ -1,19 +1,43 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
+
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:storage_info/storage_info.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
   @override
-  _MyAppState createState() => _MyAppState();
+  State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  Future<int> _getSpace() async {
-    return await StorageInfo.getStorageTotalSpace;
+  double _totalSpace = 0;
+  double _freeSpace = 0;
+  double _usedSpace = 0;
+  final _storageInfoPlugin = StorageInfo();
+
+  @override
+  void initState() {
+    super.initState();
+    initStorage();
+  }
+
+  Future<void> initStorage() async {
+    try {
+      _totalSpace = await _storageInfoPlugin.getStorageTotalSpace(SpaceUnit.GB);
+      _freeSpace = await _storageInfoPlugin.getStorageFreeSpace(SpaceUnit.GB);
+      _usedSpace = await _storageInfoPlugin.getStorageUsedSpace(SpaceUnit.GB);
+
+      if (!mounted) return;
+      setState(() {});
+    } on PlatformException {
+      debugPrint("Error occurred");
+    }
   }
 
   @override
@@ -23,18 +47,18 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('Plugin example app'),
         ),
-        body: FutureBuilder(
-            future: _getSpace(),
-            builder: (context, snapshot) {
-              print(snapshot.error);
-              if (snapshot.hasData) {
-                return Center(
-                  child: Text('Space: ${snapshot.data}'),
-                );
-              } else {
-                return Center(child: Text("Loading"));
-              }
-            }),
+        body: Center(
+          child: Column(
+            children: [
+              Text('Total space: $_totalSpace'),
+              const SizedBox(height: 8),
+              Text('Free space: $_freeSpace'),
+              const SizedBox(height: 8),
+              Text('Used space: $_usedSpace'),
+              const SizedBox(height: 8),
+            ],
+          ),
+        ),
       ),
     );
   }

@@ -1,118 +1,73 @@
-import 'dart:async';
+// ignore_for_file: constant_identifier_names
 
-import 'package:flutter/services.dart';
+import 'package:storage_info/storage_info_platform_interface.dart';
 
 class StorageInfo {
-  static const MethodChannel _channel = const MethodChannel('storage_info');
-
   // Storage space in bytes
-  static Future<int> get getStorageFreeSpace async {
-    final int freeSpace = await _channel.invokeMethod('getStorageFreeSpace');
-    return freeSpace;
+  Future<double> getStorageTotalSpace(
+      [SpaceUnit unit = SpaceUnit.Bytes]) async {
+    int bytes = await StorageInfoPlatform.instance.getStorageTotalSpace();
+    return _getSpaceByUnit(bytes: bytes, unit: unit);
   }
 
-  static Future<int> get getStorageTotalSpace async {
-    final int totalSpace = await _channel.invokeMethod('getStorageTotalSpace');
-    return totalSpace;
+  Future<double> getStorageFreeSpace([SpaceUnit unit = SpaceUnit.Bytes]) async {
+    int bytes = await StorageInfoPlatform.instance.getStorageFreeSpace();
+    return _getSpaceByUnit(bytes: bytes, unit: unit);
   }
 
-  static Future<int> get getStorageUsedSpace async {
-    final int usedSpace = await _channel.invokeMethod('getStorageUsedSpace');
-    return usedSpace;
+  Future<double> getStorageUsedSpace([SpaceUnit unit = SpaceUnit.Bytes]) async {
+    int bytes = await StorageInfoPlatform.instance.getStorageUsedSpace();
+    return _getSpaceByUnit(bytes: bytes, unit: unit);
   }
 
   // External storage in bytes
-  static Future<int> get getExternalStorageTotalSpace async {
-    final int totalSpace =
-        await _channel.invokeMethod('getExternalStorageTotalSpace');
-    return totalSpace;
+  /// For android only
+  Future<double> getExternalStorageTotalSpace(
+      [SpaceUnit unit = SpaceUnit.Bytes]) async {
+    int bytes =
+        await StorageInfoPlatform.instance.getExternalStorageTotalSpace();
+    return _getSpaceByUnit(bytes: bytes, unit: unit);
   }
 
-  static Future<int> get getExternalStorageFreeSpace async {
-    final int freeSpace =
-        await _channel.invokeMethod('getExternalStorageFreeSpace');
-    return freeSpace;
+  /// For android only
+  Future<double> getExternalStorageFreeSpace(
+      [SpaceUnit unit = SpaceUnit.Bytes]) async {
+    int bytes =
+        await StorageInfoPlatform.instance.getExternalStorageFreeSpace();
+    return _getSpaceByUnit(bytes: bytes, unit: unit);
   }
 
-  static Future<int> get getExternalStorageUsedSpace async {
-    final int usedSpace =
-        await _channel.invokeMethod('getExternalStorageUsedSpace');
-    return usedSpace;
+  /// For android only
+  Future<double> getExternalStorageUsedSpace(
+      [SpaceUnit unit = SpaceUnit.Bytes]) async {
+    int bytes =
+        await StorageInfoPlatform.instance.getExternalStorageUsedSpace();
+    return _getSpaceByUnit(bytes: bytes, unit: unit);
   }
 
-  // Storage space in MB
-  static Future<double> get getStorageFreeSpaceInMB async {
-    final double freeSpace =
-        await _channel.invokeMethod('getStorageFreeSpaceInMB');
-    return freeSpace;
-  }
+  double _getSpaceByUnit({required int bytes, required SpaceUnit unit}) {
+    double kb = bytes / 1024;
+    double mb = kb / 1024;
+    double gb = mb / 1024;
 
-  static Future<double> get getStorageUsedSpaceInMB async {
-    final double usedSpace =
-        await _channel.invokeMethod('getStorageUsedSpaceInMB');
-    return usedSpace;
+    switch (unit) {
+      case SpaceUnit.Bytes:
+        return bytes.toDouble();
+      case SpaceUnit.KB:
+        return kb;
+      case SpaceUnit.MB:
+        return mb;
+      case SpaceUnit.GB:
+        return gb;
+      default:
+        return bytes.toDouble();
+    }
   }
+}
 
-  static Future<double> get getStorageTotalSpaceInMB async {
-    final double totalSpace =
-        await _channel.invokeMethod('getStorageTotalSpaceInMB');
-    return totalSpace;
-  }
-
-  // Storage space in GB
-  static Future<double> get getStorageFreeSpaceInGB async {
-    final double freeSpace =
-        await _channel.invokeMethod('getStorageFreeSpaceInGB');
-    return freeSpace;
-  }
-
-  static Future<double> get getStorageUsedSpaceInGB async {
-    final double usedSpace =
-        await _channel.invokeMethod('getStorageUsedSpaceInGB');
-    return usedSpace;
-  }
-
-  static Future<double> get getStorageTotalSpaceInGB async {
-    final double totalSpace =
-        await _channel.invokeMethod('getStorageTotalSpaceInGB');
-    return totalSpace;
-  }
-
-  // External storage space in MB
-  static Future<double> get getExternalStorageFreeSpaceInMB async {
-    final double freeSpace =
-        await _channel.invokeMethod('getExternalStorageFreeSpaceInMB');
-    return freeSpace;
-  }
-
-  static Future<double> get getExternalStorageUsedSpaceInMB async {
-    final double usedSpace =
-        await _channel.invokeMethod('getExternalStorageUsedSpaceInMB');
-    return usedSpace;
-  }
-
-  static Future<double> get getExternalStorageTotalSpaceInMB async {
-    final double totalSpace =
-        await _channel.invokeMethod('getExternalStorageTotalSpaceInMB');
-    return totalSpace;
-  }
-
-  // External storage space in GB
-  static Future<double> get getExternalStorageFreeSpaceInGB async {
-    final double freeSpace =
-        await _channel.invokeMethod('getExternalStorageFreeSpaceInGB');
-    return freeSpace;
-  }
-
-  static Future<double> get getExternalStorageUsedSpaceInGB async {
-    final double usedSpace =
-        await _channel.invokeMethod('getExternalStorageUsedSpaceInGB');
-    return usedSpace;
-  }
-
-  static Future<double> get getExternalStorageTotalSpaceInGB async {
-    final double totalSpace =
-        await _channel.invokeMethod('getExternalStorageTotalSpaceInGB');
-    return totalSpace;
-  }
+enum SpaceUnit {
+  Bytes,
+  MB,
+  KB,
+  GB,
 }

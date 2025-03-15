@@ -10,9 +10,12 @@ To use this plugin, add storage_info as a dependency in your pubspec.yaml file.
 // Import package
 import 'package:storage_info/storage_info.dart';
 
+//Initialize 
+final _storageInfoPlugin = StorageInfo();
+
 // Access internal storage space
 Future<int> _getSpace() async {
-  return await StorageInfo.getStorageFreeSpace;
+  return await _storageInfoPlugin.getStorageFreeSpace();
 }
 
 // Inside build method use future builder
@@ -30,50 +33,62 @@ FutureBuilder(
 }
 ```
 
-This package provides properties to get internal storage in bytes, MB and GB
-So you dont need to convert bytes in MB or GB
+This package provides properties to get internal storage in bytes, KB, MB and GB
+So you don't need to convert bytes in KB, MB or GB.
+
+- **Note:** If your are migrating from `0.0.1` to `1.0.0` please read the [Changelog](https://pub.dev/packages/storage_info/changelog#100)
+  for changes.
 
 See below code
 
-// For internal storage
+- For internal storage
 
 ```dart
 
-// get internal storage total space in bytes, MB and GB
-await StorageInfo.getStorageTotalSpace; // return int
-await StorageInfo.getStorageTotalSpaceInMB; // return double
-await StorageInfo.getStorageTotalSpaceInGB; // return double
+final _storageInfoPlugin = StorageInfo();
 
-// get internal storage free space in bytes, MB and GB
-await StorageInfo.getStorageFreeSpace; // return int
-await StorageInfo.getStorageFreeSpaceInMB; // return double
-await StorageInfo.getStorageFreeSpaceInGB; // return double
+// get internal storage total space in Bytes, KB, MB and GB
+await _storageInfoPlugin.getStorageTotalSpace(); // default to bytes
+await _storageInfoPlugin.getStorageTotalSpace(SpaceUnit.KB);
+await _storageInfoPlugin.getStorageTotalSpace(SpaceUnit.MB);
+await _storageInfoPlugin.getStorageTotalSpace(SpaceUnit.GB);
 
-// get internal storage used space in bytes, MB and GB
-await StorageInfo.getStorageUsedSpace; // return int
-await StorageInfo.getStorageUsedSpaceInMB; // return double
-await StorageInfo.getStorageUsedSpaceInGB; // return double
+// get internal storage free space in Bytes, KB, MB and GB
+await _storageInfoPlugin.getStorageFreeSpace(); // default to bytes
+await _storageInfoPlugin.getStorageFreeSpace(SpaceUnit.KB);
+await _storageInfoPlugin.getStorageFreeSpace(SpaceUnit.MB);
+await _storageInfoPlugin.getStorageFreeSpace(SpaceUnit.GB);
+
+// get internal storage used space in Bytes, KB, MB and GB
+await _storageInfoPlugin.getStorageUsedSpace(); // default to bytes
+await _storageInfoPlugin.getStorageUsedSpace(SpaceUnit.KB);
+await _storageInfoPlugin.getStorageUsedSpace(SpaceUnit.MB);
+await _storageInfoPlugin.getStorageUsedSpace(SpaceUnit.GB);
 
 ```
 
-// For external storage (SD card)
+- For external storage (SD card) - *Only For Android*
 
 ```dart
 
-// get external storage total space in bytes, MB and GB
-return await StorageInfo.getExternalStorageTotalSpace; // return int
-return await StorageInfo.getExternalStorageTotalSpaceInMB; // return double
-return await StorageInfo.getExternalStorageTotalSpaceInGB; // return double
+final _storageInfoPlugin = StorageInfo();
 
-// get external storage free space in bytes, MB and GB
-return await StorageInfo.getExternalStorageFreeSpace; // return int
-return await StorageInfo.getExternalStorageFreeSpaceInMB; // return double
-return await StorageInfo.getExternalStorageFreeSpaceInGB; // return double
+// get external storage total space in Bytes, KB, MB and GB
+await _storageInfoPlugin.getExternalStorageTotalSpace(); // default to bytes
+await _storageInfoPlugin.getExternalStorageTotalSpace(SpaceUnit.KB);
+await _storageInfoPlugin.getExternalStorageTotalSpace(SpaceUnit.MB);
+await _storageInfoPlugin.getExternalStorageTotalSpace(SpaceUnit.GB);
 
-// get external storage used space in bytes, MB and GB
-return await StorageInfo.getExternalStorageUsedSpace; // return int
-return await StorageInfo.getExternalStorageUsedSpaceInMB; // return double
-return await StorageInfo.getExternalStorageUsedSpaceInGB; // return double
+// get external storage free space in Bytes, KB, MB and GB
+await _storageInfoPlugin.getExternalStorageFreeSpace(); // default to bytes
+await _storageInfoPlugin.getExternalStorageFreeSpace(SpaceUnit.KB);
+await _storageInfoPlugin.getExternalStorageFreeSpace(SpaceUnit.MB);
+await _storageInfoPlugin.getExternalStorageFreeSpace(SpaceUnit.GB);
 
+// get external storage used space in Bytes, KB, MB and GB
+await _storageInfoPlugin.getExternalStorageUsedSpace(); // default to bytes
+await _storageInfoPlugin.getExternalStorageUsedSpace(SpaceUnit.KB);
+await _storageInfoPlugin.getExternalStorageUsedSpace(SpaceUnit.MB);
+await _storageInfoPlugin.getExternalStorageUsedSpace(SpaceUnit.GB);
 
 ```
