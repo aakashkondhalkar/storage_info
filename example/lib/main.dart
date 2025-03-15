@@ -27,6 +27,8 @@ class _MyAppState extends State<MyApp> {
     initStorage();
   }
 
+  /// Get storage info
+  /// Note: If your are migrating from `0.0.1` to `1.0.0` please read the [Changelog](https://pub.dev/packages/storage_info/changelog#100)
   Future<void> initStorage() async {
     try {
       _totalSpace = await _storageInfoPlugin.getStorageTotalSpace(SpaceUnit.GB);
