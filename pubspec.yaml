@@ -1,6 +1,6 @@
 name: storage_info
 description: A Flutter Plugin to show free, used and total internal and external storage space.
-version: 0.0.1
+version: 1.0.0
 homepage: https://github.com/aakashkondhalkar/storage_info.git
 
 environment:
