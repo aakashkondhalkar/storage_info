@@ -59,8 +59,6 @@ class StorageInfo {
         return mb;
       case SpaceUnit.GB:
         return gb;
-      default:
-        return bytes.toDouble();
     }
   }
 }
