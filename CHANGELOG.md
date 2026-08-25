@@ -1,3 +1,10 @@
+## 2.0.0
+
+- Bump Dart version to 3.12 & minimum Flutter version to 3.44.0.
+- ADDED: Swift Package Manager (SPM) support for iOS.
+- ADDED: support for the iOS UIScene lifecycle.
+- FIXED: Android - migrate plugin to built-in Kotlin for AGP 9.0 compatibility.
+
 ## 1.0.0
 
 - Added iOS support.
